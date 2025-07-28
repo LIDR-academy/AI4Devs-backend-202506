@@ -5,6 +5,10 @@ import dotenv from 'dotenv';
 import candidateRoutes from './routes/candidateRoutes';
 import { uploadFile } from './application/services/fileUploadService';
 import cors from 'cors';
+import positionRoutes from './routes/positionRoutes';
+import swaggerUi from 'swagger-ui-express';
+// @ts-ignore
+import swaggerDocument from '../docs/swagger.json';
 
 // Extender la interfaz Request para incluir prisma
 declare global {
@@ -42,6 +46,12 @@ app.use('/candidates', candidateRoutes);
 // Route for file uploads
 app.post('/upload', uploadFile);
 
+// Integración de rutas Kanban ATS
+app.use(positionRoutes);
+
+// Documentación Swagger/OpenAPI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   next();
@@ -55,7 +65,7 @@ app.get('/', (req, res) => {
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.type('text/plain'); 
+  res.type('text/plain');
   res.status(500).send('Something broke!');
 });
 

@@ -1,0 +1,100 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ATS Kanban API",
+    "version": "1.0.0",
+    "description": "API para manipular la lista de candidatos en una interfaz tipo kanban."
+  },
+  "paths": {
+    "/positions/{id}/candidates": {
+      "get": {
+        "summary": "Obtener candidatos en proceso para una posición",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "ID de la posición"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de candidatos en proceso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/CandidateKanban" }
+                }
+              }
+            }
+          },
+          "404": { "description": "Posición no encontrada" },
+          "401": { "description": "No autorizado" }
+        }
+      }
+    },
+    "/candidates/{id}/stage": {
+      "put": {
+        "summary": "Actualizar la etapa de un candidato",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "ID del candidato"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "currentInterviewStep": { "type": "integer" }
+                },
+                "required": ["currentInterviewStep"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Estado actualizado del candidato",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CandidateStageUpdate" }
+              }
+            }
+          },
+          "400": { "description": "Etapa inválida" },
+          "404": { "description": "Candidato o aplicación no encontrados" },
+          "401": { "description": "No autorizado" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CandidateKanban": {
+        "type": "object",
+        "properties": {
+          "candidateId": { "type": "integer" },
+          "fullName": { "type": "string" },
+          "currentInterviewStep": { "type": "string" },
+          "averageScore": { "type": "number", "nullable": true }
+        }
+      },
+      "CandidateStageUpdate": {
+        "type": "object",
+        "properties": {
+          "candidateId": { "type": "integer" },
+          "currentInterviewStep": { "type": "integer" }
+        }
+      }
+    }
+  }
+} 
