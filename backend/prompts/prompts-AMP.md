@@ -9,16 +9,55 @@
 
 ## Categorías 🏷️
 
+- **Análisis de Requerimientos** 🔍
+- **Historias de Usuario** 📖
+- **Gestión de Tickets** 🎫
+- **Diseño Técnico** 🏗️
+- **Desarrollo Backend** 👨‍💻
+- **Documentación** 📄
+- **Testing y Cobertura** 🧪
+- **DevOps y Troubleshooting** 🛠️
+- **Gestión de Roles** 👥
+- **Mejoras y Refactorización** 🔄
+
+---
 
 ## Estadísticas 📊
 
-## Roles 👥
+| Métrica                        | Valor |
+|-------------------------------|-------|
+| Total de Prompts              | 21    |
+| Categoría más frecuente        | Desarrollo Backend 👨‍💻 (9) |
+| Prompt más largo               | Prompt 4 (Diseño Técnico) |
+| Prompt con mayor dificultad    | Prompt 4, Prompt 11, Prompt 19 |
+| Roles distintos involucrados   | 4     |
+| Prompts con múltiples roles    | 8     |
+| Prompts de testing             | 7     |
+| Prompts de documentación       | 6     |
+| Prompts de análisis            | 5     |
+| Prompts de troubleshooting     | 4     |
 
-En los prompts se utilizaron los siguientes roles enfocados en personas experimentadas en ATS:
+### Prompts por Categoría
+
+| Categoría                  | # Prompts |
+|---------------------------|-----------|
+| Desarrollo Backend 👨‍💻    | 9         |
+| Testing y Cobertura 🧪     | 7         |
+| Documentación 📄           | 6         |
+| Análisis de Requerimientos 🔍 | 5     |
+| Diseño Técnico 🏗️         | 3         |
+| Gestión de Tickets 🎫      | 3         |
+| DevOps y Troubleshooting 🛠️ | 4      |
+| Historias de Usuario 📖    | 2         |
+| Mejoras y Refactorización 🔄 | 2      |
+| Gestión de Roles 👥        | 1         |
+
+### Roles Utilizados
 
 - Product Owner 👩‍💼
 - Líder Técnico 🧑‍💻
 - Desarrollador Backend Senior 👨🏻‍💻
+- QA/Tester 🧪
 
 ---
 
@@ -43,7 +82,8 @@ Análisis técnico y diseño detallado de los endpoints, aplicando buenas práct
 
 ***Estos archivos no fueron versionados ya que no es el scope del ejercicio.***
 
-**Prompt 1:**
+### **Prompt 1:** 
+`Análisis de Requerimientos 🔍` `Desarrollo Backend 👨‍💻` `Documentación 📄`
 
 Eres un Product Owner experimentado en sistemas ATS.
 
@@ -66,7 +106,8 @@ Guarda esta misma información en @init.md luego enriquece la informacion con to
 Apoyate en el esquema de datos @schema.prisma 
 Revisa el contexto general del proyecto en @README.md 
 
-**Prompt 2:**
+### **Prompt 2:** 
+`Historias de Usuario 📖` `Análisis de Requerimientos 🔍`
 analiza @init.md y genera la maxima cantidad de historias de usuario.
 
 Ejemplos de User Story
@@ -101,7 +142,8 @@ Como [rol del usuario], quiero [acción que desea realizar el usuario], para que
 
 [Relaciones con otras historias de usuario] documenta todo en @UserStories.md aplicando buenas practicas agiles
 
-**Prompt 3:**
+### **Prompt 3:** 
+`Gestión de Tickets 🎫` `Documentación 📄`
 analiza @UserStories.md  genera los Tickets de trabajo correspondientes. Aterrízalos técnicamente, tal y como se hace en las sprint planning.
 
 Apoyate en @init.md @UserStories.md 
@@ -154,7 +196,8 @@ Historial de Cambios:
 
 01/10/2023: Creado por [nombre] 05/10/2023: Prioridad actualizada a Alta por [nombre]
 
-**Prompt 4:**
+### **Prompt 4:** 
+`Diseño Técnico 🏗️` `Desarrollo Backend 👨‍💻` `Documentación 📄`
 Eres un Lider tecnico senior, experto en implementacion de sistemas ATS
 
 debes realizar el análisis técnico y el diseño de los endpoints. apoyate en @init.md @Tickets.md @UserStories.md 
@@ -167,10 +210,11 @@ todo debe estar comentado con descripciones relevantes para que cualquier person
 
 guiate por el esquema @schema.prisma 
 
-**Prompt 4:**
+### **Prompt 5:**
 analiza @Development.md y actualiza los tickets @Tickets.md para que los desarrolladores tenga todo el contexto y el detalle tecnico para la implementacion
 
-**Prompt 5:**
+### **Prompt 6:** 
+`Gestión de Tickets 🎫` `Diseño Técnico 🏗️`
 eres un desarrollador backend senior
 
 debes desarrollar los @Tickets.md y guiarte por el lineamiento tecnico @Development.md 
@@ -181,51 +225,77 @@ asegurate en todo momento de usar buenas practicas y comentar todo el codigo
 
 genera el codigo y estructura de carpetas automaticamente
 
-**Prompt 6:**
+### **Prompt 7:** 
+`Desarrollo Backend 👨‍💻` `Documentación 📄`
 continua con la integración de rutas y generación de documentación Swagger
 
-**Prompt 7:**
+### **Prompt 8:** 
+`Desarrollo Backend 👨‍💻` `Mejoras y Refactorización 🔄`
 corrige los errores de compilación @Image
 
-**Prompt 8:**
+### **Prompt 9:** 
+`DevOps y Troubleshooting 🛠️` `Documentación 📄`
 actualiza @README.md con todo lo necesario para no cometer los mismos errores al levantar el backend
 
-**Prompt 9:**
+### **Prompt 10:** 
+`Testing y Cobertura 🧪` `Documentación 📄`
 @README.md agrega ejemplos de request y response, tambien agrega ejemplos de curl para ejecutar. agrega instrucciones para ejecutar los tests
 
-**Prompt 10:**
+### **Prompt 11:** 
+`Testing y Cobertura 🧪` `Desarrollo Backend 👨‍💻`
 actualiza @TDD.md y agrega todo lo necesario para generar las instrucciones que sirvan de guia apra crear los tests unitarios. asegurate de cubrir todo lo esperado en @UserStories.md 
 
-**Prompt 11:**
-analiza @TDD.md y genera los unit tests. asegurate de dar cobertura a todo lo esperado en @UserStories.md  la cobertura de los test debe ser superior a 85%
-
-**Prompt 12:**
+### **Prompt 12:** 
+`Testing y Cobertura 🧪`
 ejecuta los test para verificar que funcionen correctamente
 
-**Prompt 13:**
+### **Prompt 13:** 
+`Testing y Cobertura 🧪` `DevOps y Troubleshooting 🛠️`
 @Image antes de seguir con los tests revisa todos los errores de compilacion
 
-**Prompt 14:**
+### **Prompt 14:** 
+`Testing y Cobertura 🧪` `Desarrollo Backend 👨‍💻`
 continua corrigiendo los tests restantes para completar la cobertura del 85%. no preguntas mas hasta conseguirlo.
 
-**Prompt 15:**
+### **Prompt 15:** 
+`Testing y Cobertura 🧪` `Documentación 📄`
 utiliza jacocoreports o algo similar para mejorar la visual del coverage
 
-**Prompt 16:**
+### **Prompt 16:** 
+`Testing y Cobertura 🧪` `Desarrollo Backend 👨‍💻`
 El reporte indica que la cobertura de los tests unitarios es menos del 85%. Genera mas tests para mejorar la cobertura. codifica todo primero y luego ejecuta los test y comprueba cobertura
 
-**Prompt 17:**
+### **Prompt 17:** 
+`Testing y Cobertura 🧪` `Mejoras y Refactorización 🔄`
 excluye los models de la cobertura. genera tests para los servicios con menor cobertura.
 
-**Prompt 18:**
+### **Prompt 18:** 
+`Testing y Cobertura 🧪` `Desarrollo Backend 👨‍💻`
 actualiza @README.md con todo lo referente a los test cobertura y como revisar el reporte html
 
-**Prompt 19:**
+### **Prompt 19:** 
+`Documentación 📄` `Testing y Cobertura 🧪` `DevOps y Troubleshooting 🛠️`
 documenta con swagger todos los endpoints del backend
 
-**Prompt 20:**
+### **Prompt 20:** 
+`Documentación 📄`
 actualiza @README.md y agrega ejemplos de request/response y curl para todos los endpoints del backend
+
+### **Prompt 21:** 
+`Gestión de Roles 👥` `Documentación 📄`
+analiza todos los prompts @prompts-AMP.md define categorias relevantes y agrega el listado en la seccion categorias, cada categoria debe tener asignado un emoji unico. Luego agrega la categoria en formato etiqueta en cada prompt, por ejemplo `categoria1 🏷️` `categoria2 🏷️` . un prompt puede tener asignado un maximo de 3 categorias relevantes. Luego agrega estadisticas en la seccion correspondiente apoyandote en tablas markdown, agrega informacion relevante de prompts mas usados, cuales generaron mayor dificultar o problemas, cuantos roles distintos se usaron en todo el proceso, etc. finalmente actualiza la seccion conclusiones detallando los puntos importantes de todo el proceso de trabajo
 
 ---
 
 ## Conslusiones 🏁
+
+Durante el proceso se cubrieron todas las fases del ciclo de vida del software para un sistema ATS Kanban, desde el análisis de requerimientos hasta la documentación y pruebas automatizadas. Se identificaron los siguientes puntos clave:
+
+- La categorización de prompts permitió visualizar la diversidad de actividades y roles involucrados.
+- El mayor reto técnico fue la integración de buenas prácticas de diseño y testing, especialmente en prompts de diseño técnico y cobertura.
+- La colaboración entre roles (Product Owner, Líder Técnico, Backend, QA) fue esencial para lograr una solución robusta y bien documentada.
+- La generación de documentación y ejemplos claros (curl, request/response) facilitó la validación y el onboarding de nuevos miembros.
+- El enfoque en testing y cobertura (>85%) garantizó calidad y mantenibilidad.
+- La automatización y el troubleshooting documentado redujeron el tiempo de resolución de problemas.
+
+Este proceso puede servir como referencia para futuros desarrollos de sistemas ATS o proyectos con requerimientos similares, asegurando trazabilidad, calidad y colaboración efectiva.
