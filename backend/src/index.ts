@@ -63,10 +63,12 @@ app.get('/', (req, res) => {
   res.send('Hola LTI!');
 });
 
+// Middleware de manejo de errores global para respuestas JSON
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.type('text/plain');
-  res.status(500).send('Something broke!');
+  res.status(err.status || 500);
+  res.type('application/json');
+  res.json({ error: err.message || 'Internal Server Error' });
 });
 
 app.listen(port, () => {

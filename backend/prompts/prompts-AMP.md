@@ -188,6 +188,43 @@ continua con la integración de rutas y generación de documentación Swagger
 corrige los errores de compilación @Image
 
 **Prompt 8:**
+actualiza @README.md con todo lo necesario para no cometer los mismos errores al levantar el backend
+
+**Prompt 9:**
+@README.md agrega ejemplos de request y response, tambien agrega ejemplos de curl para ejecutar. agrega instrucciones para ejecutar los tests
+
+**Prompt 10:**
+actualiza @TDD.md y agrega todo lo necesario para generar las instrucciones que sirvan de guia apra crear los tests unitarios. asegurate de cubrir todo lo esperado en @UserStories.md 
+
+**Prompt 11:**
+analiza @TDD.md y genera los unit tests. asegurate de dar cobertura a todo lo esperado en @UserStories.md  la cobertura de los test debe ser superior a 85%
+
+**Prompt 12:**
+ejecuta los test para verificar que funcionen correctamente
+
+**Prompt 13:**
+@Image antes de seguir con los tests revisa todos los errores de compilacion
+
+**Prompt 14:**
+continua corrigiendo los tests restantes para completar la cobertura del 85%. no preguntas mas hasta conseguirlo.
+
+**Prompt 15:**
+utiliza jacocoreports o algo similar para mejorar la visual del coverage
+
+**Prompt 16:**
+El reporte indica que la cobertura de los tests unitarios es menos del 85%. Genera mas tests para mejorar la cobertura. codifica todo primero y luego ejecuta los test y comprueba cobertura
+
+**Prompt 17:**
+excluye los models de la cobertura. genera tests para los servicios con menor cobertura.
+
+**Prompt 18:**
+actualiza @README.md con todo lo referente a los test cobertura y como revisar el reporte html
+
+**Prompt 19:**
+documenta con swagger todos los endpoints del backend
+
+**Prompt 20:**
+actualiza @README.md y agrega ejemplos de request/response y curl para todos los endpoints del backend
 
 ---
 

@@ -74,24 +74,24 @@ export const candidateService = {
      * @param currentInterviewStep Nueva etapa
      * @returns Estado actualizado del candidato
      */
-    async updateCandidateStage(candidateId: number, currentInterviewStep: number) {
-        // Buscar la aplicación activa del candidato
-        const application = await prisma.application.findFirst({
-            where: { candidateId },
-        });
-        if (!application) {
-            throw { status: 404, message: 'Aplicación no encontrada para el candidato.' };
+    async updateCandidateStage(candidateId: number, newStage: number) {
+        try {
+            const application = await prisma.application.findFirst({
+                where: { candidateId }
+            });
+            if (!application) {
+                throw new Error('Aplicación no encontrada para el candidato especificado.');
+            }
+            const updated = await prisma.application.update({
+                where: { id: application.id },
+                data: { currentInterviewStep: newStage }
+            });
+            return {
+                candidateId,
+                currentInterviewStep: updated.currentInterviewStep
+            };
+        } catch (error) {
+            throw error;
         }
-        // Validar que la etapa existe (opcional: consultar InterviewStep)
-        // Actualizar la etapa
-        const updated = await prisma.application.update({
-            where: { id: application.id },
-            data: { currentInterviewStep },
-        });
-        // Retornar DTO de respuesta
-        return {
-            candidateId,
-            currentInterviewStep: updated.currentInterviewStep,
-        };
     },
 };
