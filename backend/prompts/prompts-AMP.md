@@ -78,7 +78,7 @@ Tickets de trabajo técnicos, estructurados para sprint planning, con descripcio
 Análisis técnico y diseño detallado de los endpoints, aplicando buenas prácticas, principios SOLID/DRY, patrones de diseño, seguridad y ejemplos de especificación Swagger/OpenAPI.
 
 - **`TDD.md`:**
-(Archivo vacío, reservado para futuras estrategias o ejemplos de desarrollo guiado por pruebas).
+Estrategia TDD para los endpoints Kanban ATS: incluye estructura de tests (unitarios, integración, mocks), criterios de aceptación cubiertos, buenas prácticas (Red-Green-Refactor, mocking, cobertura >85%), y comandos para ejecutar y revisar cobertura. Garantiza calidad y cumplimiento de User Stories.
 
 ***Estos archivos no fueron versionados ya que no es el scope del ejercicio.***
 
