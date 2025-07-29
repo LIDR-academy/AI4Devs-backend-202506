@@ -1,0 +1,276 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ATS Kanban API",
+    "version": "1.0.0",
+    "description": "API para manipular la lista de candidatos en una interfaz tipo kanban."
+  },
+  "paths": {
+    "/positions/{id}/candidates": {
+      "get": {
+        "summary": "Obtener candidatos en proceso para una posición",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "ID de la posición"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de candidatos en proceso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/CandidateKanban" }
+                }
+              }
+            }
+          },
+          "404": { "description": "Posición no encontrada" },
+          "401": { "description": "No autorizado" }
+        }
+      }
+    },
+    "/candidates/{id}/stage": {
+      "put": {
+        "summary": "Actualizar la etapa de un candidato",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "ID del candidato"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "currentInterviewStep": { "type": "integer" }
+                },
+                "required": ["currentInterviewStep"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Estado actualizado del candidato",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CandidateStageUpdate" }
+              }
+            }
+          },
+          "400": { "description": "Etapa inválida" },
+          "404": { "description": "Candidato o aplicación no encontrados" },
+          "401": { "description": "No autorizado" }
+        }
+      }
+    },
+    "/candidates": {
+      "post": {
+        "summary": "Crear un nuevo candidato",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CandidateCreate" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Candidato creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Candidate" }
+              }
+            }
+          },
+          "400": { "description": "Datos inválidos" },
+          "409": { "description": "Email ya existe" }
+        }
+      }
+    },
+    "/candidates/{id}": {
+      "get": {
+        "summary": "Obtener un candidato por ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": { "type": "integer" },
+            "required": true,
+            "description": "ID del candidato"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Candidato encontrado",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Candidate" }
+              }
+            }
+          },
+          "404": { "description": "Candidato no encontrado" }
+        }
+      }
+    },
+    "/upload": {
+      "post": {
+        "summary": "Subir un archivo (CV)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Archivo PDF o DOCX a subir"
+                  }
+                },
+                "required": ["file"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Archivo subido exitosamente",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UploadResponse" }
+              }
+            }
+          },
+          "400": { "description": "Tipo de archivo inválido" },
+          "500": { "description": "Error de servidor o Multer" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CandidateKanban": {
+        "type": "object",
+        "properties": {
+          "candidateId": { "type": "integer" },
+          "fullName": { "type": "string" },
+          "currentInterviewStep": { "type": "string" },
+          "averageScore": { "type": "number", "nullable": true }
+        }
+      },
+      "CandidateStageUpdate": {
+        "type": "object",
+        "properties": {
+          "candidateId": { "type": "integer" },
+          "currentInterviewStep": { "type": "integer" }
+        }
+      },
+      "CandidateCreate": {
+        "type": "object",
+        "properties": {
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" },
+          "address": { "type": "string" },
+          "educations": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Education" }
+          },
+          "workExperiences": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/WorkExperience" }
+          },
+          "cv": { "$ref": "#/components/schemas/Resume" }
+        },
+        "required": ["firstName", "lastName", "email"]
+      },
+      "Candidate": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" },
+          "address": { "type": "string" },
+          "educations": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Education" }
+          },
+          "workExperiences": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/WorkExperience" }
+          },
+          "resumes": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Resume" }
+          },
+          "applications": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Application" }
+          }
+        }
+      },
+      "Education": {
+        "type": "object",
+        "properties": {
+          "institution": { "type": "string" },
+          "title": { "type": "string" },
+          "startDate": { "type": "string", "format": "date" },
+          "endDate": { "type": "string", "format": "date" }
+        }
+      },
+      "WorkExperience": {
+        "type": "object",
+        "properties": {
+          "company": { "type": "string" },
+          "position": { "type": "string" },
+          "description": { "type": "string" },
+          "startDate": { "type": "string", "format": "date" },
+          "endDate": { "type": "string", "format": "date" }
+        }
+      },
+      "Resume": {
+        "type": "object",
+        "properties": {
+          "filePath": { "type": "string" },
+          "fileType": { "type": "string" }
+        }
+      },
+      "Application": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "positionId": { "type": "integer" },
+          "candidateId": { "type": "integer" },
+          "applicationDate": { "type": "string", "format": "date" },
+          "currentInterviewStep": { "type": "integer" },
+          "notes": { "type": "string" }
+        }
+      },
+      "UploadResponse": {
+        "type": "object",
+        "properties": {
+          "filePath": { "type": "string" },
+          "fileType": { "type": "string" }
+        }
+      }
+    }
+  }
+} 
