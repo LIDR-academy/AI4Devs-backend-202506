@@ -1,23 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import candidateRoutes from './routes/candidateRoutes';
 import positionRoutes from './routes/positionRoutes';
 import { uploadFile } from './application/services/fileUploadService';
 import cors from 'cors';
+import { prisma } from './lib/prisma';
 
 // Extender la interfaz Request para incluir prisma
 declare global {
   namespace Express {
     interface Request {
-      prisma: PrismaClient;
+      prisma: typeof prisma;
     }
   }
 }
 
 dotenv.config();
-const prisma = new PrismaClient();
 
 export const app = express();
 export default app;

@@ -1,7 +1,21 @@
-import { PrismaClient, Application } from '@prisma/client';
+import { prisma } from '../../lib/prisma';
 import { CandidatePositionDTO, CandidatePositionResponseDTO } from '../../domain/dtos/CandidatePositionDTO';
 
-const prisma = new PrismaClient();
+type ApplicationWithRelations = {
+    candidate: {
+        id: number;
+        firstName: string;
+        lastName: string;
+    };
+    interviewStep: {
+        name: string;
+    };
+    interviews: Array<{
+        score: number | null;
+    }>;
+} & {
+    [key: string]: any; // Para permitir propiedades adicionales que Prisma pueda incluir
+}
 
 export class PositionService {
     /**
@@ -34,14 +48,14 @@ export class PositionService {
         });
 
         // Transform the data into the required format
-        const candidates: CandidatePositionDTO[] = applications.map(app => {
+        const candidates: CandidatePositionDTO[] = applications.map((app: ApplicationWithRelations) => {
             // Calculate average score
             const scores = app.interviews
-                .map(interview => interview.score)
-                .filter((score): score is number => score !== null);
+                .map((interview: { score: number | null }) => interview.score)
+                .filter((score: number | null): score is number => score !== null);
             
             const averageScore = scores.length > 0
-                ? scores.reduce((acc, curr) => acc + curr, 0) / scores.length
+                ? scores.reduce((acc: number, curr: number) => acc + curr, 0) / scores.length
                 : null;
 
             return {
