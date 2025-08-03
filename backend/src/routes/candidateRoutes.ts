@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { addCandidate, getCandidateById } from '../presentation/controllers/candidateController';
+import { CandidateStageController } from '../presentation/controllers/candidateStageController';
 
 const router = Router();
 
@@ -18,5 +19,12 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id', getCandidateById);
+
+// Initialize the stage controller
+const stageController = new CandidateStageController();
+
+// Stage management routes
+router.put('/:candidateId/stage', (req, res) => stageController.advanceToNextStage(req, res));
+router.get('/:candidateId/stage', (req, res) => stageController.getCurrentStage(req, res));
 
 export default router;
