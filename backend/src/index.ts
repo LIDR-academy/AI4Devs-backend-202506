@@ -3,6 +3,8 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import candidateRoutes from './routes/candidateRoutes';
+import positionRoutes from './routes/positionRoutes';
+import kanbanRoutes from './routes/kanbanRoutes';
 import { uploadFile } from './application/services/fileUploadService';
 import cors from 'cors';
 
@@ -38,6 +40,12 @@ app.use(cors({
 
 // Import and use candidateRoutes
 app.use('/candidates', candidateRoutes);
+
+// Import and use positionRoutes
+app.use('/positions', positionRoutes);
+
+// Import and use kanbanRoutes - Tablero Kanban de candidatos
+app.use('/api', kanbanRoutes);
 
 // Route for file uploads
 app.post('/upload', uploadFile);

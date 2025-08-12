@@ -1,0 +1,477 @@
+/* 
+ * Estilos personalizados para el tablero Kanban
+ * Complementa los estilos de Bootstrap 
+ */
+
+/* === TABLERO KANBAN === */
+.kanban-board {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+}
+
+/* === COLUMNAS DEL KANBAN === */
+.kanban-columns {
+    gap: 0.25rem; /* Muy poco espacio entre columnas */
+    display: flex !important; /* Forzar flexbox */
+    flex-wrap: nowrap !important; /* No permitir que se envuelvan */
+    width: 100%;
+    overflow-x: auto; /* Scroll horizontal si es necesario */
+}
+
+.kanban-column-container {
+    flex: 1 1 23% !important; /* Cada columna ocupa máximo 23% */
+    max-width: 23% !important; /* Ancho máximo fijo */
+    min-width: 200px !important; /* Ancho mínimo */
+    margin-bottom: 1rem;
+}
+
+.kanban-columns > div {
+    flex: 1 1 23% !important; /* Cada columna ocupa máximo 23% */
+    max-width: 23% !important; /* Ancho máximo fijo */
+    min-width: 200px !important; /* Ancho mínimo */
+}
+
+.kanban-column-wrapper {
+    min-height: 350px; /* Reducido de 400px */
+    width: 100% !important;
+}
+
+.kanban-column {
+    border: 1px solid #e9ecef; /* Borde más delgado */
+    transition: all 0.3s ease;
+    border-radius: 6px; /* Bordes más pequeños */
+    overflow: hidden;
+}
+
+.kanban-column:hover {
+    border-color: #007bff;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1); /* Sombra más sutil */
+    transform: translateY(-1px); /* Menos movimiento */
+}
+
+.kanban-column-application {
+    border-left: 4px solid #17a2b8;
+}
+
+.kanban-column-interview {
+    border-left: 4px solid #007bff;
+}
+
+.kanban-column-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.5rem; /* Reducido de 0.75rem */
+}
+
+.kanban-column-body {
+    background-color: #fdfdfd;
+    max-height: 450px; /* Reducido de 500px */
+    overflow-y: auto;
+    padding: 0.25rem; /* Reducido de 0.5rem */
+}
+
+.kanban-candidates-container {
+    min-height: 50px;
+}
+
+.kanban-empty-state {
+    opacity: 0.6;
+    font-style: italic;
+    padding: 2rem 1rem;
+}
+
+.kanban-column-footer {
+    font-size: 0.75rem;
+    border-top: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    padding: 0.5rem 0.75rem;
+}
+
+/* === TARJETAS DE CANDIDATOS === */
+.candidate-card {
+    border: 1px solid #e9ecef;
+    border-radius: 4px; /* Más pequeño */
+    transition: all 0.2s ease;
+    margin-bottom: 0.25rem; /* Reducido de 0.5rem */
+    cursor: pointer;
+    background-color: #f8f9fa !important; /* Fondo gris claro, forzado */
+    color: #2c3e50 !important; /* Asegurar texto oscuro */
+}
+
+.candidate-card.card {
+    background-color: #f8f9fa !important; /* Específico para Bootstrap Card */
+}
+
+.candidate-card .card-body {
+    background-color: #f8f9fa !important; /* Asegurar que el body también sea gris */
+    color: #2c3e50 !important;
+    padding: 0.5rem !important; /* Reducido padding interno */
+}
+
+.candidate-card:hover {
+    border-color: #007bff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+}
+
+.candidate-card:last-child {
+    margin-bottom: 0;
+}
+
+.candidate-name {
+    color: #2c3e50 !important; /* Texto negro, forzado */
+    font-weight: 600;
+    font-size: 0.8rem; /* Reducido de 0.9rem */
+    line-height: 1.1; /* Más compacto */
+    margin-bottom: 0.2rem; /* Reducido */
+}
+
+.candidate-email {
+    font-size: 0.7rem; /* Reducido de 0.75rem */
+    color: #6c757d;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 120px; /* Reducido de 150px */
+}
+
+.candidate-score {
+    min-width: 60px;
+}
+
+.candidate-details .detail-row {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    margin-bottom: 0.25rem;
+}
+
+.current-step-badge {
+    font-size: 0.65rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.candidate-footer {
+    border-top: 1px solid #f8f9fa;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.progress-indicator,
+.time-indicator {
+    font-size: 0.7rem;
+}
+
+/* Estados especiales para candidatos según score */
+.candidate-card.high-score {
+    border-left: 3px solid #28a745;
+}
+
+.candidate-card.medium-score {
+    border-left: 3px solid #ffc107;
+}
+
+.candidate-card.low-score {
+    border-left: 3px solid #dc3545;
+}
+
+.candidate-card.no-score {
+    border-left: 3px solid #6c757d;
+}
+
+/* === SISTEMA DE ESTRELLAS === */
+.star-rating {
+    line-height: 1;
+}
+
+.stars-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.star {
+    display: inline-block;
+    line-height: 1;
+    user-select: none;
+}
+
+.star-interactive {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.star-interactive:hover {
+    color: #ffb400 !important;
+    transform: scale(1.1);
+}
+
+.score-number {
+    white-space: nowrap;
+    font-weight: 500;
+    margin-left: 0.25rem;
+}
+
+/* === SCROLLBARS PERSONALIZADOS === */
+.kanban-column-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.kanban-column-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+
+.kanban-column-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+.kanban-column-body::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* === INDICADORES DE ESTADO === */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    padding: 0.125rem 0.375rem;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.status-indicator.status-today {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-indicator.status-recent {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-indicator.status-week {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-indicator.status-old {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+/* === BOTONES DEL KANBAN === */
+.kanban-action-btn {
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.kanban-action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* === BADGES Y CONTADORES === */
+.kanban-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+}
+
+.kanban-counter {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    min-width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* === ANIMACIONES === */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.candidate-card {
+    animation: fadeInUp 0.3s ease;
+}
+
+.kanban-column {
+    animation: fadeInUp 0.4s ease;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+    .kanban-columns {
+        gap: 0.5rem;
+    }
+    
+    .kanban-column-wrapper {
+        min-height: 300px;
+    }
+    
+    .kanban-column-body {
+        max-height: 300px;
+    }
+    
+    .candidate-card {
+        margin-bottom: 0.375rem;
+    }
+    
+    .candidate-name {
+        font-size: 0.85rem;
+    }
+    
+    .candidate-email {
+        font-size: 0.7rem;
+        max-width: 120px;
+    }
+    
+    .candidate-details .detail-row {
+        font-size: 0.7rem;
+    }
+    
+    .stars-container {
+        gap: 0;
+    }
+    
+    .score-number {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .kanban-board {
+        padding: 0.5rem;
+    }
+    
+    .kanban-column-header {
+        padding: 0.5rem;
+    }
+    
+    .kanban-column-body {
+        padding: 0.375rem;
+        max-height: 250px;
+    }
+    
+    .candidate-card .card-body {
+        padding: 0.75rem;
+    }
+    
+    .kanban-empty-state {
+        padding: 1rem;
+    }
+}
+
+/* === MODO OSCURO (PREPARADO PARA FUTURAS IMPLEMENTACIONES) === */
+@media (prefers-color-scheme: dark) {
+    .kanban-board {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    }
+    
+    .kanban-column {
+        border-color: #495057;
+        background-color: #343a40;
+    }
+    
+    .kanban-column-header {
+        background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+        color: #f8f9fa;
+    }
+    
+    .kanban-column-body {
+        background-color: #2c3e50;
+    }
+    
+    .candidate-card {
+        background-color: #f8f9fa !important; /* Forzar fondo gris claro incluso en modo oscuro */
+        border-color: #e9ecef !important;
+        color: #2c3e50 !important; /* Texto oscuro */
+    }
+    
+    .candidate-name {
+        color: #f8f9fa;
+    }
+    
+    .candidate-email {
+        color: #adb5bd;
+    }
+}
+
+/* === FORZAR FONDO GRIS PARA CANDIDATOS === */
+.candidate-card,
+.candidate-card.card,
+.candidate-card .card-body {
+    background-color: #f8f9fa !important; /* Fondo gris claro siempre */
+    color: #2c3e50 !important; /* Texto oscuro siempre */
+}
+
+/* === UTILIDADES === */
+.text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.text-truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.shadow-kanban {
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+.border-radius-kanban {
+    border-radius: 8px;
+}
+
+/* === ESTADOS DE CARGA === */
+.kanban-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    color: #6c757d;
+}
+
+.kanban-loading .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+}
+
+/* === MENSAJES DE ERROR === */
+.kanban-error {
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.kanban-warning {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
