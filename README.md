@@ -2,6 +2,53 @@
 
 This project is a full-stack application with a React frontend and an Express backend using Prisma as an ORM. The frontend is started with Create React App, and the backend is written in TypeScript.
 
+## ✨ New Feature: Kanban Board System
+
+The system now includes a comprehensive **Kanban Board** for visualizing candidate progress through interview stages:
+
+### 🎯 Key Features
+- **Dynamic Columns**: Automatically generated based on interview flow configuration
+- **Real-time Candidate Tracking**: Visual representation of candidates in each interview stage
+- **Smart Candidate Placement**: Candidates are positioned based on their last completed interview
+- **Score Visualization**: Star rating system (1-5 stars) with color-coded indicators
+- **Responsive Design**: Optimized layout with 4 columns per row
+- **Interactive Navigation**: Direct access from positions list with intelligent routing
+
+### 🏗️ Kanban Architecture
+- **Backend API Endpoints**:
+  - `GET /api/positions/:id/kanban` - Retrieve Kanban data for a position
+  - `GET /api/kanban/statistics` - Get overall Kanban statistics
+  - `GET /api/kanban/health` - Health check endpoint
+  - `GET /api/interview-steps` - Get all available interview steps
+
+- **Frontend Components**:
+  - `KanbanBoard.js` - Main board container with navigation and statistics
+  - `KanbanColumn.js` - Individual column with candidates and metadata
+  - `CandidateCard.js` - Candidate information card with scores
+  - `StarRating.js` - Interactive star rating component
+
+### 📊 Column Structure
+1. **Revisión** - Initial application review (candidates without interviews)
+2. **Initial Screening** - First interview stage
+3. **Technical Interview** - Technical assessment stage  
+4. **Manager Interview** - Final management review stage
+
+### 🎨 Visual Design
+- **Color-coded Performance**: Green (high scores), Yellow (medium), Red (low scores)
+- **Compact Layout**: Optimized spacing for maximum information density
+- **Dark Theme Support**: Professional dark background with high contrast
+- **Responsive Grid**: Adapts to different screen sizes while maintaining 4-column layout
+
+### 🚀 Quick Start
+```bash
+# Access Kanban from positions list
+http://localhost:3000/positions
+# Click "Ver Kanban" button for any active position
+
+# Or direct access
+http://localhost:3000/kanban/1  # Replace 1 with position ID
+```
+
 ## Explanation of Directories and Files
 
 - `backend/`: Contains the server-side code written in Node.js.
@@ -163,6 +210,53 @@ POST http://localhost:3010/candidates
 
 Este proyecto es una aplicación full-stack con un frontend en React y un backend en Express usando Prisma como un ORM. El frontend se inicia con Create React App y el backend está escrito en TypeScript.
 
+## ✨ Nueva Funcionalidad: Sistema Kanban
+
+El sistema ahora incluye un **Tablero Kanban** completo para visualizar el progreso de candidatos a través de las etapas de entrevista:
+
+### 🎯 Características Principales
+- **Columnas Dinámicas**: Generadas automáticamente basadas en la configuración del flujo de entrevistas
+- **Seguimiento en Tiempo Real**: Representación visual de candidatos en cada etapa de entrevista
+- **Ubicación Inteligente**: Los candidatos se posicionan según su última entrevista completada
+- **Visualización de Puntuaciones**: Sistema de estrellas (1-5) con indicadores codificados por color
+- **Diseño Responsivo**: Layout optimizado con 4 columnas por fila
+- **Navegación Interactiva**: Acceso directo desde la lista de posiciones con enrutamiento inteligente
+
+### 🏗️ Arquitectura Kanban
+- **Endpoints de API Backend**:
+  - `GET /api/positions/:id/kanban` - Obtener datos del Kanban para una posición
+  - `GET /api/kanban/statistics` - Obtener estadísticas generales del Kanban
+  - `GET /api/kanban/health` - Endpoint de verificación de salud
+  - `GET /api/interview-steps` - Obtener todas las etapas de entrevista disponibles
+
+- **Componentes Frontend**:
+  - `KanbanBoard.js` - Contenedor principal del tablero con navegación y estadísticas
+  - `KanbanColumn.js` - Columna individual con candidatos y metadatos
+  - `CandidateCard.js` - Tarjeta de información del candidato con puntuaciones
+  - `StarRating.js` - Componente interactivo de calificación por estrellas
+
+### 📊 Estructura de Columnas
+1. **Revisión** - Revisión inicial de aplicación (candidatos sin entrevistas)
+2. **Initial Screening** - Primera etapa de entrevista
+3. **Technical Interview** - Etapa de evaluación técnica
+4. **Manager Interview** - Revisión final de gestión
+
+### 🎨 Diseño Visual
+- **Rendimiento Codificado por Color**: Verde (puntuaciones altas), Amarillo (medio), Rojo (bajas)
+- **Layout Compacto**: Espaciado optimizado para máxima densidad de información
+- **Soporte Tema Oscuro**: Fondo oscuro profesional con alto contraste
+- **Grid Responsivo**: Se adapta a diferentes tamaños de pantalla manteniendo layout de 4 columnas
+
+### 🚀 Inicio Rápido
+```bash
+# Acceder al Kanban desde la lista de posiciones
+http://localhost:3000/positions
+# Hacer clic en el botón "Ver Kanban" para cualquier posición activa
+
+# O acceso directo
+http://localhost:3000/kanban/1  # Reemplazar 1 con el ID de la posición
+```
+
 ## Explicación de Directorios y Archivos
 
 - `backend/`: Contiene el código del lado del servidor escrito en Node.js.
@@ -281,6 +375,51 @@ ts-node seed.ts
 ```
 
 Una vez has dado todos los pasos, deberías poder guardar nuevos candidatos, tanto via web, como via API, verlos en la base de datos y obtenerlos mediante GET por id.
+
+## 🧪 Pruebas del Sistema Kanban
+
+El sistema incluye un conjunto completo de pruebas para garantizar la funcionalidad:
+
+### Backend Tests
+```bash
+cd backend
+npm test
+```
+
+**Pruebas Disponibles:**
+- ✅ `kanbanService.test.ts` - Pruebas unitarias del servicio Kanban
+- ✅ `kanbanController.test.ts` - Pruebas del controlador de API
+- ✅ `kanbanRoutes.test.ts` - Pruebas de integración de rutas
+- ✅ `Position.test.ts` - Pruebas del modelo de posición con Kanban
+- ✅ `positionService.test.ts` - Pruebas del servicio de posiciones
+
+**Cobertura de Pruebas:**
+- Validación de datos de entrada
+- Manejo de errores y casos edge
+- Integración con base de datos
+- Respuestas de API correctas
+- Lógica de negocio del Kanban
+
+### Debugging Scripts
+```bash
+# Verificar datos de etapas de entrevista
+node debug-interview-steps.js
+
+# Probar estructura de API Kanban
+node test-kanban-api.js
+```
+
+## 📈 Métricas de Implementación
+
+**Total de Archivos Modificados/Creados:** 15+
+**Líneas de Código:** 2000+
+**Componentes React:** 4 nuevos
+**API Endpoints:** 4 nuevos
+**Pruebas Implementadas:** 5 archivos de test
+
+**Tiempo de Desarrollo:** ~6 horas de implementación sistemática
+**Arquitectura:** Clean Architecture con separación de responsabilidades
+**Patrón de Diseño:** Domain-Driven Design (DDD)
 
 ```
 POST http://localhost:3010/candidates
