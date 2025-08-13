@@ -31,4 +31,24 @@ export const getCandidateById = async (req: Request, res: Response) => {
     }
 };
 
+// Controlador para actualizar la etapa del candidato
+import { updateCandidateStage } from '../../application/services/candidateService';
+
+export const updateCandidateStageController = async (req: Request, res: Response) => {
+    const candidateId = parseInt(req.params.id);
+    const { interviewStepId, applicationId } = req.body;
+    if (!interviewStepId) {
+        return res.status(400).json({ error: 'interviewStepId es requerido en el body.' });
+    }
+    try {
+        const result = await updateCandidateStage(candidateId, interviewStepId, applicationId);
+        if (!result) {
+            return res.status(404).json({ error: 'No se encontró la postulación activa para el candidato.' });
+        }
+        return res.json({ message: 'Etapa actualizada correctamente', application: result });
+    } catch (error: any) {
+        return res.status(500).json({ error: error.message || 'Error al actualizar la etapa.' });
+    }
+};
+
 export { addCandidate };

@@ -70,3 +70,20 @@ Visual Studio Code + Github Copilot (GPT 4.1)
 1. Agregar la ruta PUT /candidates/:id/stage en candidateRoutes.ts. 2. Crear el método correspondiente en candidateController.ts. 3. Implementar la función de servicio en candidateService.ts para actualizar la etapa del candidato. 4. Asegurar que el modelo y la validación soporten el cambio de etapa. 5. Actualizar la documentación en api-spec.yaml para reflejar el nuevo endpoint.
 
 La etapa se recibirá en el body como { "stage": "nombre_etapa" }.
+
+El modelo Candidate no tiene un campo "stage" o "fase"; la etapa actual del proceso de entrevista está en el modelo Application, en el campo currentInterviewStep (que referencia a InterviewStep).
+
+Por lo tanto, para actualizar la etapa de un candidato, el endpoint debe actualizar el campo currentInterviewStep de la Application correspondiente al candidato y posición.
+
+Procederé a:
+
+Crear la ruta PUT /candidates/:id/stage.
+Implementar el controlador para recibir el nuevo step (etapa) y actualizar el campo currentInterviewStep en la Application activa del candidato.
+Implementar la función de servicio.
+Validar que el body reciba el nuevo step (por id o nombre).
+Actualizar la documentación OpenAPI.
+¿Confirmas que el cambio de etapa se hará sobre la Application activa del candidato (es decir, la postulación actual)? ¿El nuevo valor de etapa se recibirá como el id del InterviewStep (por ejemplo, { "interviewStepId": 3 })?
+
+
+### Usuario: ###
+    Si
