@@ -50,4 +50,64 @@ export class Application {
         if (!data) return null;
         return new Application(data);
     }
+
+    static async findByCandidate(candidateId: number, positionId: number) {
+        const data = await prisma.application.findFirst({
+            where: {
+                candidateId: candidateId,
+                positionId: positionId
+            },
+            include: {
+                candidate: true,
+                position: {
+                    include: {
+                        interviewFlow: {
+                            include: {
+                                interviewSteps: {
+                                    include: {
+                                        interviewType: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                interviewStep: {
+                    include: {
+                        interviewType: true
+                    }
+                }
+            }
+        });
+        
+        return data; // Retornamos datos raw con relaciones para validaciones
+    }
+
+    async updateInterviewStage(newInterviewStepId: number, notes?: string) {
+        this.currentInterviewStep = newInterviewStepId;
+        if (notes !== undefined) {
+            this.notes = notes;
+        }
+
+        return await prisma.$transaction(async (tx) => {
+            const updated = await tx.application.update({
+                where: { id: this.id },
+                data: {
+                    currentInterviewStep: this.currentInterviewStep,
+                    notes: this.notes
+                },
+                include: {
+                    candidate: true,
+                    position: true,
+                    interviewStep: {
+                        include: {
+                            interviewType: true
+                        }
+                    }
+                }
+            });
+
+            return updated;
+        });
+    }
 }
