@@ -3,6 +3,7 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
 import candidateRoutes from './routes/candidateRoutes';
+import positionRoutes from './routes/positionRoutes';
 import { uploadFile } from './application/services/fileUploadService';
 import cors from 'cors';
 
@@ -25,7 +26,7 @@ export default app;
 app.use(express.json());
 
 // Middleware para adjuntar prisma al objeto de solicitud
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
   req.prisma = prisma;
   next();
 });
@@ -39,21 +40,24 @@ app.use(cors({
 // Import and use candidateRoutes
 app.use('/candidates', candidateRoutes);
 
+// Import and use positionRoutes
+app.use('/positions', positionRoutes);
+
 // Route for file uploads
 app.post('/upload', uploadFile);
 
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   next();
 });
 
 const port = 3010;
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.send('Hola LTI!');
 });
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err.stack);
   res.type('text/plain'); 
   res.status(500).send('Something broke!');

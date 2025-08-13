@@ -83,5 +83,72 @@ export class Position {
         if (!data) return null;
         return new Position(data);
     }
+
+    static async getCandidatesByPosition(positionId: number) {
+        const position = await prisma.position.findUnique({
+            where: { id: positionId },
+            select: { id: true, title: true }
+        });
+
+        if (!position) {
+            throw new Error('Position not found');
+        }
+
+        const applications = await prisma.application.findMany({
+            where: { positionId: positionId },
+            include: {
+                candidate: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                        email: true,
+                        phone: true
+                    }
+                },
+                interviewStep: {
+                    select: {
+                        name: true
+                    }
+                },
+                interviews: {
+                    select: {
+                        score: true
+                    }
+                }
+            },
+            orderBy: {
+                applicationDate: 'desc'
+            }
+        });
+
+        const candidatesWithScore = applications.map(application => {
+            const scores = application.interviews
+                .map(interview => interview.score)
+                .filter((score): score is number => score !== null);
+            
+            const averageScore = scores.length > 0 
+                ? Math.round((scores.reduce((sum, score) => sum + score, 0) / scores.length) * 100) / 100
+                : null;
+
+            return {
+                id: application.candidate.id,
+                firstName: application.candidate.firstName,
+                lastName: application.candidate.lastName,
+                email: application.candidate.email,
+                phone: application.candidate.phone,
+                applicationDate: application.applicationDate,
+                currentStep: application.interviewStep.name,
+                averageScore: averageScore
+            };
+        });
+
+        return {
+            positionId: position.id,
+            positionTitle: position.title,
+            totalCandidates: candidatesWithScore.length,
+            candidates: candidatesWithScore
+        };
+    }
 }
 

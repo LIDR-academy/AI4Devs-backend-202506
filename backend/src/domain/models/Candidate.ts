@@ -160,4 +160,5 @@ export class Candidate {
         if (!data) return null;
         return new Candidate(data);
     }
+
 }

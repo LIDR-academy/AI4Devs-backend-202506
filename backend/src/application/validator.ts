@@ -105,3 +105,65 @@ export const validateCandidateData = (data: any) => {
         validateCV(data.cv);
     }
 };
+
+// Validaciones específicas para actualización de etapa de candidato
+const validatePositiveInteger = (value: any, fieldName: string) => {
+    if (!Number.isInteger(value) || value <= 0) {
+        throw new Error(`Invalid ${fieldName}: must be a positive integer`);
+    }
+};
+
+const validateNotesLength = (notes: string) => {
+    if (notes && notes.length > 500) {
+        throw new Error('Notes field cannot exceed 500 characters');
+    }
+};
+
+export const validateStageUpdateData = (data: any) => {
+    // Validar que el body contiene los campos requeridos
+    if (!data || typeof data !== 'object') {
+        throw new Error('Request body must be a valid JSON object');
+    }
+
+    // newInterviewStepId es requerido
+    if (data.newInterviewStepId === undefined || data.newInterviewStepId === null) {
+        throw new Error('newInterviewStepId is required');
+    }
+    validatePositiveInteger(data.newInterviewStepId, 'newInterviewStepId');
+
+    // positionId es requerido
+    if (data.positionId === undefined || data.positionId === null) {
+        throw new Error('positionId is required');
+    }
+    validatePositiveInteger(data.positionId, 'positionId');
+
+    // notes es opcional pero debe validarse si se proporciona
+    if (data.notes !== undefined && data.notes !== null) {
+        if (typeof data.notes !== 'string') {
+            throw new Error('Notes must be a string');
+        }
+        validateNotesLength(data.notes);
+    }
+
+    // Validar que no hay campos adicionales no permitidos
+    const allowedFields = ['newInterviewStepId', 'positionId', 'notes'];
+    const extraFields = Object.keys(data).filter(key => !allowedFields.includes(key));
+    
+    if (extraFields.length > 0) {
+        throw new Error(`Unexpected fields in request: ${extraFields.join(', ')}`);
+    }
+};
+
+export const validateCandidateId = (candidateId: any): number => {
+    const id = parseInt(candidateId);
+    
+    if (isNaN(id)) {
+        throw new Error('Invalid candidate ID format: must be a number');
+    }
+    
+    if (id <= 0) {
+        throw new Error('Invalid candidate ID: must be a positive number');
+    }
+    
+    return id;
+};
