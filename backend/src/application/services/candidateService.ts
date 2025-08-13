@@ -3,6 +3,9 @@ import { validateCandidateData } from '../validator';
 import { Education } from '../../domain/models/Education';
 import { WorkExperience } from '../../domain/models/WorkExperience';
 import { Resume } from '../../domain/models/Resume';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export const addCandidate = async (candidateData: any) => {
     try {
@@ -61,5 +64,67 @@ export const findCandidateById = async (id: number): Promise<Candidate | null> =
     } catch (error) {
         console.error('Error al buscar el candidato:', error);
         throw new Error('Error al recuperar el candidato');
+    }
+};
+
+export const updateCandidateStage = async (candidateId: number, stageId: number) => {
+    try {
+        // Verificar que el candidato existe
+        const candidate = await Candidate.findOne(candidateId);
+        if (!candidate) {
+            throw new Error('Candidate not found');
+        }
+
+        // Verificar que la etapa existe
+        const stage = await prisma.interviewStep.findUnique({
+            where: { id: stageId }
+        });
+        if (!stage) {
+            throw new Error('Invalid stage ID');
+        }
+
+        // Buscar la aplicación activa del candidato (asumiendo que solo puede tener una aplicación activa por posición)
+        const application = await prisma.application.findFirst({
+            where: { candidateId },
+            orderBy: { applicationDate: 'desc' }
+        });
+
+        if (!application) {
+            throw new Error('No active application found for this candidate');
+        }
+
+        // Actualizar la etapa actual de la aplicación
+        const updatedApplication = await prisma.application.update({
+            where: { id: application.id },
+            data: { currentInterviewStep: stageId },
+            include: {
+                candidate: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                        email: true
+                    }
+                },
+                interviewStep: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
+            }
+        });
+
+        return {
+            candidate_id: updatedApplication.candidate.id,
+            candidate_name: `${updatedApplication.candidate.firstName} ${updatedApplication.candidate.lastName}`,
+            application_id: updatedApplication.id,
+            previous_stage: application.currentInterviewStep,
+            new_stage: stageId,
+            stage_name: updatedApplication.interviewStep.name
+        };
+    } catch (error) {
+        console.error('Error updating candidate stage:', error);
+        throw error;
     }
 };
