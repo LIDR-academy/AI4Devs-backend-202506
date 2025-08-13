@@ -19,4 +19,8 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', getCandidateById);
 
+// Actualizar la etapa (currentInterviewStep) de la postulación activa del candidato
+import { updateCandidateStageController } from '../presentation/controllers/candidateController';
+router.put('/:id/stage', updateCandidateStageController);
+
 export default router;

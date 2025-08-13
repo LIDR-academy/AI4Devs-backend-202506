@@ -63,3 +63,5 @@ export const findCandidateById = async (id: number): Promise<Candidate | null> =
         throw new Error('Error al recuperar el candidato');
     }
 };
+
+export { updateCandidateStage } from './updateCandidateStage';
