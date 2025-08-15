@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { addCandidate, getCandidateById } from '../presentation/controllers/candidateController';
+import { updateCandidateStageController } from '../presentation/controllers/positionController';
 
 const router = Router();
 
@@ -18,5 +19,8 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id', getCandidateById);
+
+// PUT /candidates/:id/stage - Update candidate stage for kanban UI
+router.put('/:id/stage', updateCandidateStageController);
 
 export default router;
