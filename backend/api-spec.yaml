@@ -186,3 +186,191 @@ paths:
         '500':
           description: Error during the file upload process
 
+  /positions/{id}/candidates:
+    get:
+      summary: Get candidates for a specific position
+      description: Retrieves all candidates who have applied for a specific position, including their current stage in the interview process.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Position ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Candidates retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Operation success status
+                  data:
+                    type: array
+                    description: List of candidates with their application details
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: Application ID
+                        applicationDate:
+                          type: string
+                          format: date-time
+                          description: Date when the candidate applied
+                        currentInterviewStep:
+                          type: integer
+                          description: Current interview step ID
+                        candidate:
+                          type: object
+                          description: Candidate information
+                          properties:
+                            id:
+                              type: integer
+                            firstName:
+                              type: string
+                            lastName:
+                              type: string
+                            email:
+                              type: string
+                            phone:
+                              type: string
+                            address:
+                              type: string
+                            educations:
+                              type: array
+                              items:
+                                type: object
+                            workExperiences:
+                              type: array
+                              items:
+                                type: object
+                            resumes:
+                              type: array
+                              items:
+                                type: object
+                        interviewStep:
+                          type: object
+                          description: Current interview step information
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                            orderIndex:
+                              type: integer
+                        position:
+                          type: object
+                          description: Position information
+                          properties:
+                            id:
+                              type: integer
+                            title:
+                              type: string
+                            company:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                name:
+                                  type: string
+                  count:
+                    type: integer
+                    description: Total number of candidates
+        '400':
+          description: Invalid position ID format
+        '500':
+          description: Internal server error
+
+  /positions/interview-steps:
+    get:
+      summary: Get all interview steps
+      description: Retrieves all available interview steps for building the kanban board columns.
+      responses:
+        '200':
+          description: Interview steps retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Operation success status
+                  data:
+                    type: array
+                    description: List of interview steps
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: Interview step ID
+                        name:
+                          type: string
+                          description: Step name
+                        orderIndex:
+                          type: integer
+                          description: Order of the step in the workflow
+                        interviewType:
+                          type: object
+                          description: Type of interview for this step
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                            description:
+                              type: string
+                  count:
+                    type: integer
+                    description: Total number of interview steps
+        '500':
+          description: Internal server error
+
+  /candidates/{id}/stage:
+    put:
+      summary: Update candidate stage
+      description: Updates the current interview stage for a specific candidate in the kanban workflow.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Candidate ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stageId:
+                  type: integer
+                  description: New interview stage ID
+                  minimum: 1
+      responses:
+        '200':
+          description: Candidate stage updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Operation success status
+                  message:
+                    type: string
+                    description: Success message
+                  data:
+                    type: object
+                    description: Updated application data
+        '400':
+          description: Invalid candidate ID or stage ID format, or candidate not found
+        '500':
+          description: Internal server error
