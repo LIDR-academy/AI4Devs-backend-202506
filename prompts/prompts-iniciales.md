@@ -119,3 +119,57 @@ Para cada endpoint, presenta primero el razonamiento paso a paso antes de la res
 - Manejo de errores con try-catch
 - Validación de datos en services
 - Respuestas JSON estructuradas
+
+## Prompts Adicionales Utilizados
+
+### Prompt para Diagnóstico de Problemas
+```
+El error indica que la ruta no se está encontrando. Esto sugiere que hay un problema con la configuración de las rutas. Vamos a diagnosticar y solucionar el problema paso a paso.
+```
+
+### Prompt para Creación de Servidor de Prueba
+```
+Voy a crear un servidor de prueba simple para diagnosticar el problema. El problema podría ser que el servidor no se está ejecutando correctamente o hay un error en la compilación.
+```
+
+### Prompt para Solución de Problemas de TypeScript
+```
+¡Ahí está el problema! Hay un error de TypeScript relacionado con las versiones de las dependencias. Este es un problema común con versiones incompatibles de TypeScript y ts-node.
+```
+
+### Prompt para Instrucciones de Postman
+```
+Te voy a dar las instrucciones detalladas para probar ambos endpoints en Postman. Primero, necesitamos asegurarnos de que el servidor esté ejecutándose.
+```
+
+### Prompt para Limpieza Final
+```
+Vale, funcionan perfectamente. Limpia unificando la que documentación. Ahora actualiza el archivo prompts con los prompts que hemos usado y mueve la carpeta a la raid del proyecto y por último súbelo al repo con un commit "entrega final AI4DEvs-backend-202506-ENO"
+```
+
+## Resumen de Prompts Utilizados
+
+1. **Prompt Principal**: Implementación de endpoints de candidatos
+2. **Prompt de Diagnóstico**: Identificación y solución de problemas de configuración
+3. **Prompt de Servidor de Prueba**: Creación de servidor simple para testing
+4. **Prompt de Solución TypeScript**: Resolución de problemas de compatibilidad
+5. **Prompt de Postman**: Instrucciones detalladas para testing
+6. **Prompt de Limpieza**: Finalización y entrega del proyecto
+
+## Metodología de Trabajo
+
+### Fases de Desarrollo:
+1. **Análisis**: Estudio de la estructura del proyecto y requerimientos
+2. **Implementación**: Desarrollo de servicios, controladores y rutas
+3. **Testing**: Creación de scripts de prueba y verificación
+4. **Diagnóstico**: Identificación y solución de problemas técnicos
+5. **Documentación**: Creación de documentación completa
+6. **Limpieza**: Eliminación de archivos temporales y finalización
+
+### Herramientas Utilizadas:
+- **TypeScript**: Para desarrollo tipado
+- **Express.js**: Framework web
+- **Prisma**: ORM para base de datos
+- **Postman**: Testing de endpoints
+- **Node.js**: Runtime de JavaScript
+- **Git**: Control de versiones
