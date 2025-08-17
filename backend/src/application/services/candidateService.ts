@@ -63,3 +63,58 @@ export const findCandidateById = async (id: number): Promise<Candidate | null> =
         throw new Error('Error al recuperar el candidato');
     }
 };
+
+export const getCandidatesByPosition = async (positionId: number) => {
+    const prisma = new (await import('@prisma/client')).PrismaClient();
+    // Buscar todas las aplicaciones para la posición dada, incluyendo candidato, paso actual y entrevistas
+    const applications = await prisma.application.findMany({
+        where: { positionId },
+        include: {
+            candidate: true,
+            interviewStep: true,
+            interviews: true
+        }
+    });
+    // Mapear la información requerida
+    return applications.map(app => {
+        // Calcular la puntuación media solo de entrevistas completadas (score !== null)
+        const completedInterviews = app.interviews.filter((i: any) => i.score !== null && i.score !== undefined);
+        const averageScore = completedInterviews.length > 0
+            ? completedInterviews.reduce((sum: number, i: any) => sum + i.score, 0) / completedInterviews.length
+            : null;
+        return {
+            id: app.candidate.id,
+            fullName: app.candidate.firstName + ' ' + app.candidate.lastName,
+            current_interview_step: app.interviewStep.name,
+            average_score: averageScore
+        };
+    });
+};
+
+export const updateApplicationStage = async (applicationId: number, stageId: number) => {
+    const prisma = new (await import('@prisma/client')).PrismaClient();
+    // Buscar la aplicación y la posición asociada
+    const application = await prisma.application.findUnique({
+        where: { id: applicationId },
+        include: { position: { select: { interviewFlowId: true } } }
+    });
+    if (!application) {
+        throw new Error('Aplicación no encontrada');
+    }
+    // Validar que el stage pertenezca al flujo de entrevistas de la posición
+    const stage = await prisma.interviewStep.findFirst({
+        where: {
+            id: stageId,
+            interviewFlowId: application.position.interviewFlowId
+        }
+    });
+    if (!stage) {
+        throw new Error('El stage no pertenece al flujo de entrevistas de la posición');
+    }
+    // Actualizar la aplicación
+    const updated = await prisma.application.update({
+        where: { id: applicationId },
+        data: { currentInterviewStep: stageId }
+    });
+    return updated;
+};

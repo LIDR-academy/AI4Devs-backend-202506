@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { addCandidate, findCandidateById } from '../../application/services/candidateService';
+import { addCandidate, findCandidateById, getCandidatesByPosition, updateApplicationStage } from '../../application/services/candidateService';
 
 export const addCandidateController = async (req: Request, res: Response) => {
     try {
@@ -28,6 +28,33 @@ export const getCandidateById = async (req: Request, res: Response) => {
         res.json(candidate);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+export const getCandidatesByPositionController = async (req: Request, res: Response) => {
+    try {
+        const positionId = parseInt(req.params.id);
+        if (isNaN(positionId)) {
+            return res.status(400).json({ error: 'ID de posición inválido' });
+        }
+        const candidates = await getCandidatesByPosition(positionId);
+        res.json(candidates);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener los candidatos de la posición' });
+    }
+};
+
+export const updateApplicationStageController = async (req: Request, res: Response) => {
+    try {
+        const applicationId = parseInt(req.params.id);
+        const { stageId } = req.body;
+        if (isNaN(applicationId) || !stageId) {
+            return res.status(400).json({ error: 'Datos inválidos' });
+        }
+        const updated = await updateApplicationStage(applicationId, stageId);
+        res.json(updated);
+    } catch (error: any) {
+        res.status(400).json({ error: error.message || 'Error al actualizar la etapa' });
     }
 };
 
