@@ -83,8 +83,8 @@ export const validateCandidateData = (data: any) => {
         return;
     }
 
-    validateName(data.firstName); 
-    validateName(data.lastName); 
+    validateName(data.firstName);
+    validateName(data.lastName);
     validateEmail(data.email);
     validatePhone(data.phone);
     validateAddress(data.address);
@@ -103,5 +103,29 @@ export const validateCandidateData = (data: any) => {
 
     if (data.cv && Object.keys(data.cv).length > 0) {
         validateCV(data.cv);
+    }
+};
+
+export const validatePositionId = (positionId: any) => {
+    if (!positionId || isNaN(Number(positionId)) || Number(positionId) <= 0) {
+        throw new Error('Invalid position ID');
+    }
+};
+
+export const validateCandidateStageData = (data: any) => {
+    if (!data || typeof data !== 'object') {
+        throw new Error('Invalid stage data');
+    }
+
+    if (!data.interviewStepId || isNaN(Number(data.interviewStepId)) || Number(data.interviewStepId) <= 0) {
+        throw new Error('Invalid interview step ID');
+    }
+
+    if (data.notes && typeof data.notes !== 'string') {
+        throw new Error('Notes must be a string');
+    }
+
+    if (data.notes && data.notes.length > 1000) {
+        throw new Error('Notes too long (maximum 1000 characters)');
     }
 };
