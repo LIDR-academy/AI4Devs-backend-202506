@@ -186,3 +186,178 @@ paths:
         '500':
           description: Error during the file upload process
 
+  /positions/{id}/candidates:
+    get:
+      summary: Get candidates in pipeline for a position
+      description: Retrieves all candidates currently in the recruitment pipeline for a specific position, including their current stage and average interview scores.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Position ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Candidates retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: Candidate ID
+                        fullName:
+                          type: string
+                          description: Candidate's full name
+                        email:
+                          type: string
+                          description: Candidate's email
+                        currentInterviewStep:
+                          type: integer
+                          description: Current interview step ID
+                        averageScore:
+                          type: number
+                          format: float
+                          description: Average interview score
+                        applicationDate:
+                          type: string
+                          format: date-time
+                          description: Application submission date
+                        totalInterviews:
+                          type: integer
+                          description: Total number of interviews conducted
+                  message:
+                    type: string
+        '400':
+          description: Invalid position ID format
+        '404':
+          description: Position not found
+        '500':
+          description: Internal server error
+
+  /candidates/{id}/stage:
+    put:
+      summary: Update candidate stage in pipeline
+      description: Updates the current interview stage for a specific candidate in the recruitment pipeline.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Candidate ID
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - positionId
+                - currentInterviewStep
+              properties:
+                positionId:
+                  type: integer
+                  description: Position ID for validation
+                currentInterviewStep:
+                  type: integer
+                  description: New interview step ID
+                notes:
+                  type: string
+                  description: Optional notes about the stage change
+      responses:
+        '200':
+          description: Candidate stage updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      fullName:
+                        type: string
+                      email:
+                        type: string
+                      currentInterviewStep:
+                        type: integer
+                      averageScore:
+                        type: number
+                        format: float
+                      applicationDate:
+                        type: string
+                        format: date-time
+                      totalInterviews:
+                        type: integer
+                      positionTitle:
+                        type: string
+                  message:
+                    type: string
+        '400':
+          description: Invalid input data
+        '404':
+          description: Candidate or position not found
+        '500':
+          description: Internal server error
+
+  /positions/{id}/interview-steps:
+    get:
+      summary: Get interview steps for a position
+      description: Retrieves all available interview steps for a specific position to help with stage management.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Position ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Interview steps retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          description: Interview step ID
+                        name:
+                          type: string
+                          description: Interview step name
+                        orderIndex:
+                          type: integer
+                          description: Order in the interview flow
+                        interviewType:
+                          type: string
+                          description: Type of interview
+                  message:
+                    type: string
+        '400':
+          description: Invalid position ID format
+        '404':
+          description: Position not found
+        '500':
+          description: Internal server error
+
