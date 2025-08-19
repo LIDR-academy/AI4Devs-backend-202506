@@ -63,3 +63,18 @@ export const findCandidateById = async (id: number): Promise<Candidate | null> =
         throw new Error('Error al recuperar el candidato');
     }
 };
+
+export const updateCandidateStage = async (candidateId: number, newInterviewStepId: number) => {
+    try {
+        const candidate = await Candidate.findOne(candidateId);
+        if (!candidate) {
+            throw new Error('Candidate not found');
+        }
+
+        const updatedApplication = await Candidate.updateApplicationStage(candidateId, newInterviewStepId);
+        return updatedApplication;
+    } catch (error) {
+        console.error('Error al actualizar la etapa del candidato:', error);
+        throw error;
+    }
+};
